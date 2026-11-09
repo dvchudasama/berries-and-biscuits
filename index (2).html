@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Berries & Biscuits | Seasonal Jams & Fresh Biscuits</title>
+  <meta name="description" content="Berries & Biscuits: small-batch seasonal jams and fresh-baked biscuits, made with love." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍓</text></svg>" />
+
+  <style>
+    :root {
+      --cream: #fff8ee;
+      --butter: #ffe9b8;
+      --biscuit: #e9b97a;
+      --biscuit-dark: #b87b3d;
+      --berry: #d94f70;
+      --berry-dark: #a32a4b;
+      --plum: #6b2d5c;
+      --blush: #ffd9e2;
+      --leaf: #6fa56b;
+      --ink: #4a2c3a;
+      --radius: 28px;
+      --shadow: 0 10px 30px rgba(163, 42, 75, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Quicksand", system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.65;
+      font-size: 1.05rem;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.15; }
+    .script { font-family: "Pacifico", cursive; color: var(--berry); font-weight: 400; }
+
+    a { color: inherit; }
+    .wrap { width: min(1100px, 100% - 2.5rem); margin-inline: auto; }
+
+    /* gingham strip */
+    .gingham {
+      height: 18px;
+      background:
+        repeating-linear-gradient(90deg, rgba(217,79,112,.35) 0 18px, transparent 18px 36px),
+        repeating-linear-gradient(0deg, rgba(217,79,112,.35) 0 9px, transparent 9px 18px),
+        #fff;
+    }
+
+    /* NAV */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 248, 238, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 2px dashed var(--blush);
+    }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: .8rem 0; gap: 1rem; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: .5rem; text-decoration: none; font-family: "Pacifico", cursive; font-size: 1.45rem; color: var(--berry-dark); }
+    .brand span.amp { color: var(--biscuit-dark); }
+    nav ul { list-style: none; display: flex; gap: 1.4rem; flex-wrap: wrap; }
+    nav ul a { text-decoration: none; font-weight: 700; color: var(--plum); padding: .25rem .1rem; border-bottom: 3px solid transparent; transition: .2s; }
+    nav ul a:hover, nav ul a:focus-visible { border-color: var(--berry); color: var(--berry-dark); outline: none; }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-block; text-decoration: none; cursor: pointer; border: none;
+      font: inherit; font-weight: 700; padding: .85rem 1.8rem; border-radius: 999px;
+      background: var(--berry); color: #fff; box-shadow: 0 6px 0 var(--berry-dark);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn:hover, .btn:focus-visible { transform: translateY(3px); box-shadow: 0 3px 0 var(--berry-dark); outline: none; }
+    .btn.alt { background: var(--butter); color: var(--biscuit-dark); box-shadow: 0 6px 0 var(--biscuit); }
+    .btn.alt:hover, .btn.alt:focus-visible { box-shadow: 0 3px 0 var(--biscuit); }
+
+    /* HERO */
+    .hero {
+      position: relative; text-align: center; padding: 5rem 0 6rem;
+      background:
+        radial-gradient(circle at 15% 20%, var(--blush) 0 90px, transparent 91px),
+        radial-gradient(circle at 88% 70%, var(--butter) 0 120px, transparent 121px),
+        var(--cream);
+    }
+    .hero .tag {
+      display: inline-block; background: #fff; border: 2px dashed var(--berry);
+      color: var(--berry-dark); font-weight: 700; padding: .3rem 1.1rem; border-radius: 999px; margin-bottom: 1.2rem;
+      transform: rotate(-2deg);
+    }
+    .hero h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); color: var(--plum); font-weight: 800; }
+    .hero h1 .amp { font-family: "Pacifico", cursive; color: var(--berry); font-weight: 400; font-size: .8em; padding: 0 .1em; }
+    .hero p.lead { max-width: 560px; margin: 1.2rem auto 2rem; font-size: 1.2rem; }
+    .hero .cta { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+
+    .float { position: absolute; font-size: 2.6rem; animation: bob 4s ease-in-out infinite; user-select: none; }
+    .f1 { top: 12%; left: 8%; }
+    .f2 { top: 20%; right: 10%; animation-delay: .8s; }
+    .f3 { bottom: 14%; left: 14%; animation-delay: 1.6s; }
+    .f4 { bottom: 20%; right: 16%; animation-delay: 2.2s; }
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-14px) rotate(6deg); } }
+
+    /* wavy dividers */
+    .wave { display: block; width: 100%; height: 50px; }
+
+    /* SECTIONS */
+    section { padding: 4.5rem 0; }
+    .section-title { text-align: center; margin-bottom: 2.8rem; }
+    .section-title h2 { font-size: clamp(2rem, 5vw, 3rem); color: var(--plum); }
+    .section-title p { max-width: 560px; margin: .6rem auto 0; }
+    .section-title .script { font-size: 1.4rem; display: block; margin-bottom: .2rem; }
+
+    /* ABOUT */
+    .about { background: var(--blush); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .about h2 { font-size: clamp(2rem, 5vw, 2.8rem); color: var(--plum); margin-bottom: 1rem; }
+    .about p + p { margin-top: 1rem; }
+    .badges { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .badge {
+      background: #fff; border-radius: var(--radius); padding: 1.4rem 1rem; text-align: center;
+      box-shadow: var(--shadow); transition: transform .2s;
+    }
+    .badge:nth-child(odd) { transform: rotate(-2deg); }
+    .badge:nth-child(even) { transform: rotate(2deg); }
+    .badge:hover { transform: rotate(0) scale(1.04); }
+    .badge .e { font-size: 2.2rem; display: block; }
+    .badge b { display: block; font-family: "Fraunces", serif; color: var(--berry-dark); margin-top: .2rem; }
+    .badge small { font-size: .9rem; }
+
+    /* SEASON TABS */
+    .tabs { display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.2rem; }
+    .tab {
+      font: inherit; font-weight: 700; cursor: pointer; border: 2px solid var(--berry);
+      background: #fff; color: var(--berry-dark); padding: .5rem 1.2rem; border-radius: 999px; transition: .2s;
+    }
+    .tab:hover { background: var(--blush); }
+    .tab[aria-selected="true"] { background: var(--berry); color: #fff; }
+    .tab:focus-visible { outline: 3px solid var(--plum); outline-offset: 2px; }
+
+    /* CARDS */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.6rem; }
+    .card {
+      background: #fff; border-radius: var(--radius); padding: 1.8rem 1.4rem 1.6rem; text-align: center;
+      box-shadow: var(--shadow); border: 3px solid transparent; transition: transform .2s, border-color .2s;
+      position: relative;
+    }
+    .card:hover { transform: translateY(-6px); border-color: var(--blush); }
+    .card .jar { font-size: 3.2rem; display: block; margin-bottom: .4rem; }
+    .card h3 { color: var(--plum); font-size: 1.3rem; margin-bottom: .4rem; }
+    .card p { font-size: .98rem; }
+    .pill {
+      display: inline-block; margin-top: .9rem; font-size: .8rem; font-weight: 700;
+      padding: .2rem .8rem; border-radius: 999px; background: var(--butter); color: var(--biscuit-dark);
+    }
+    .pill.now { background: var(--leaf); color: #fff; }
+    .hidden { display: none; }
+    .season-note { text-align: center; margin-top: 1.6rem; font-style: italic; }
+
+    /* BISCUITS */
+    .biscuits { background: var(--butter); }
+    .biscuits .card { background: var(--cream); }
+    .biscuits .card:hover { border-color: var(--biscuit); }
+    .biscuits .pill { background: #fff; }
+
+    /* HOW IT WORKS */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.6rem; counter-reset: step; }
+    .step { text-align: center; padding: 1.4rem 1rem; }
+    .step::before {
+      counter-increment: step; content: counter(step);
+      display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 1rem;
+      border-radius: 50%; background: var(--berry); color: #fff;
+      font-family: "Fraunces", serif; font-weight: 800; font-size: 1.5rem;
+      box-shadow: 0 5px 0 var(--berry-dark);
+    }
+    .step h3 { color: var(--plum); margin-bottom: .3rem; }
+
+    /* ORDER */
+    .order { background: var(--blush); }
+    .order-box {
+      max-width: 640px; margin: 0 auto; background: #fff; padding: 2.2rem; border-radius: var(--radius);
+      box-shadow: var(--shadow); border: 3px dashed var(--berry);
+    }
+    form { display: grid; gap: 1.1rem; }
+    label { font-weight: 700; color: var(--plum); display: grid; gap: .3rem; }
+    input, select, textarea {
+      font: inherit; padding: .75rem 1rem; border: 2px solid var(--blush); border-radius: 16px;
+      background: var(--cream); color: var(--ink); width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--berry); background: #fff; }
+    textarea { min-height: 110px; resize: vertical; }
+    .form-note { font-size: .9rem; text-align: center; margin-top: .4rem; }
+
+    /* FOOTER */
+    footer { background: var(--plum); color: var(--cream); text-align: center; padding: 3rem 0 2rem; }
+    footer .brand { justify-content: center; color: #fff; font-size: 1.8rem; margin-bottom: .6rem; }
+    footer p { opacity: .9; }
+    footer .small { font-size: .9rem; margin-top: 1.4rem; opacity: .7; }
+
+    /* responsive */
+    @media (max-width: 760px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .float { font-size: 1.8rem; }
+      nav { justify-content: center; }
+      section { padding: 3.2rem 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="gingham" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <nav aria-label="Main">
+        <a class="brand" href="#top">🍓 Berries <span class="amp">&</span> Biscuits</a>
+        <ul>
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#jams">Jams</a></li>
+          <li><a href="#biscuits">Biscuits</a></li>
+          <li><a href="#order">Order</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <div class="hero">
+      <span class="float f1" aria-hidden="true">🍓</span>
+      <span class="float f2" aria-hidden="true">🫐</span>
+      <span class="float f3" aria-hidden="true">🧈</span>
+      <span class="float f4" aria-hidden="true">🍒</span>
+      <div class="wrap">
+        <span class="tag">✨ Small-batch &amp; made with love ✨</span>
+        <h1>Berries<span class="amp">&amp;</span>Biscuits</h1>
+        <p class="lead">Seasonal jams bursting with fruit, and warm, flaky biscuits made to spread them on. Sweet little things for your breakfast table.</p>
+        <div class="cta">
+          <a class="btn" href="#order">Place an Order</a>
+          <a class="btn alt" href="#jams">See What's in Season</a>
+        </div>
+      </div>
+    </div>
+
+    <svg class="wave" viewBox="0 0 1200 50" preserveAspectRatio="none" aria-hidden="true" style="background:var(--cream)">
+      <path d="M0,25 C150,60 300,-10 450,25 C600,60 750,-10 900,25 C1050,60 1150,10 1200,25 L1200,50 L0,50 Z" fill="#ffd9e2"/>
+    </svg>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="wrap about-grid">
+        <div>
+          <span class="script" style="font-size:1.4rem">Hello there!</span>
+          <h2>Our little kitchen story</h2>
+          <p>Berries &amp; Biscuits started with a simple idea: the best mornings begin with something homemade. We cook our jams in small batches using fruit picked at its peak, so every jar tastes like the season it came from.</p>
+          <p>Our menu changes with the calendar, so there's always something new to try. And of course, every jar deserves a fluffy, buttery biscuit to go with it.</p>
+        </div>
+        <div class="badges">
+          <div class="badge"><span class="e">🍓</span><b>Seasonal Fruit</b><small>Picked at its peak</small></div>
+          <div class="badge"><span class="e">🥄</span><b>Small Batch</b><small>Stirred by hand</small></div>
+          <div class="badge"><span class="e">🧈</span><b>Real Butter</b><small>No shortcuts here</small></div>
+          <div class="badge"><span class="e">💌</span><b>Gift Ready</b><small>Perfect for sharing</small></div>
+        </div>
+      </div>
+    </section>
+
+    <svg class="wave" viewBox="0 0 1200 50" preserveAspectRatio="none" aria-hidden="true" style="background:var(--cream)">
+      <path d="M0,25 C150,-10 300,60 450,25 C600,-10 750,60 900,25 C1050,-10 1150,40 1200,25 L1200,0 L0,0 Z" fill="#ffd9e2"/>
+    </svg>
+
+    <!-- JAMS -->
+    <section id="jams">
+      <div class="wrap">
+        <div class="section-title">
+          <span class="script">Spread the joy</span>
+          <h2>Seasonal Jams</h2>
+          <p>Our flavors rotate through the year. Pick a season to see what's cooking.</p>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Seasons">
+          <button class="tab" role="tab" aria-selected="false" data-season="spring">🌸 Spring</button>
+          <button class="tab" role="tab" aria-selected="false" data-season="summer">☀️ Summer</button>
+          <button class="tab" role="tab" aria-selected="false" data-season="fall">🍂 Fall</button>
+          <button class="tab" role="tab" aria-selected="false" data-season="winter">❄️ Winter</button>
+        </div>
+
+        <div class="grid season-panel hidden" data-panel="spring">
+          <article class="card"><span class="jar">🍓</span><h3>Strawberry Rhubarb</h3><p>Sweet and tangy, like a pie in a jar.</p><span class="pill">Spring</span></article>
+          <article class="card"><span class="jar">🌼</span><h3>Strawberry Lemon</h3><p>Bright, fresh and sunny.</p><span class="pill">Spring</span></article>
+          <article class="card"><span class="jar">🍋</span><h3>Meyer Lemon Curd</h3><p>Silky, zesty and spoonable.</p><span class="pill">Spring</span></article>
+        </div>
+
+        <div class="grid season-panel hidden" data-panel="summer">
+          <article class="card"><span class="jar">🫐</span><h3>Blueberry Lavender</h3><p>Juicy blueberries with a floral whisper.</p><span class="pill">Summer</span></article>
+          <article class="card"><span class="jar">🍑</span><h3>Peach Vanilla</h3><p>Ripe peaches and real vanilla bean.</p><span class="pill">Summer</span></article>
+          <article class="card"><span class="jar">🍒</span><h3>Black Cherry</h3><p>Deep, rich and a little bit jammy-jazzy.</p><span class="pill">Summer</span></article>
+          <article class="card"><span class="jar">🍓</span><h3>Triple Berry</h3><p>Strawberry, raspberry and blackberry in one jar.</p><span class="pill">Summer</span></article>
+        </div>
+
+        <div class="grid season-panel hidden" data-panel="fall">
+          <article class="card"><span class="jar">🍎</span><h3>Cinnamon Apple Butter</h3><p>Slow-simmered, cozy and warmly spiced.</p><span class="pill now">In season</span></article>
+          <article class="card"><span class="jar">🍐</span><h3>Vanilla Pear</h3><p>Soft, mellow and perfect on warm biscuits.</p><span class="pill now">In season</span></article>
+          <article class="card"><span class="jar">🍇</span><h3>Concord Grape</h3><p>Nostalgic, bold and totally PB&amp;J approved.</p><span class="pill now">In season</span></article>
+          <article class="card"><span class="jar">🫐</span><h3>Blackberry Sage</h3><p>Tart berries with a hint of garden herb.</p><span class="pill now">In season</span></article>
+        </div>
+
+        <div class="grid season-panel hidden" data-panel="winter">
+          <article class="card"><span class="jar">🍊</span><h3>Cranberry Orange</h3><p>Festive, tart and citrusy.</p><span class="pill">Winter</span></article>
+          <article class="card"><span class="jar">🍯</span><h3>Spiced Fig</h3><p>Honeyed figs with cinnamon and clove.</p><span class="pill">Winter</span></article>
+          <article class="card"><span class="jar">🍋</span><h3>Blood Orange Marmalade</h3><p>Ruby-colored and beautifully bittersweet.</p><span class="pill">Winter</span></article>
+        </div>
+
+        <p class="season-note">Flavors may change based on what the farms have ready. 🍃</p>
+      </div>
+    </section>
+
+    <!-- BISCUITS -->
+    <section class="biscuits" id="biscuits">
+      <div class="wrap">
+        <div class="section-title">
+          <span class="script">Fresh from the oven</span>
+          <h2>Our Biscuits</h2>
+          <p>Tall, flaky and golden, baked in small batches so they're at their best.</p>
+        </div>
+        <div class="grid">
+          <article class="card"><span class="jar">🥐</span><h3>Classic Buttermilk</h3><p>The original. Buttery layers, tender crumb.</p><span class="pill">Everyday favorite</span></article>
+          <article class="card"><span class="jar">🧀</span><h3>Cheddar &amp; Chive</h3><p>Sharp cheddar and fresh chives. Great with a savory spread.</p><span class="pill">Savory</span></article>
+          <article class="card"><span class="jar">🍯</span><h3>Honey Butter</h3><p>Brushed with honey butter while still warm.</p><span class="pill">Sweet</span></article>
+          <article class="card"><span class="jar">🍪</span><h3>Cinnamon Sugar</h3><p>Like a snickerdoodle and a biscuit had a baby.</p><span class="pill">Sweet</span></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <div class="wrap">
+        <div class="section-title">
+          <span class="script">Easy as pie (or jam)</span>
+          <h2>How It Works</h2>
+        </div>
+        <div class="steps">
+          <div class="step"><h3>Pick your goodies</h3><p>Choose your favorite jams and biscuits.</p></div>
+          <div class="step"><h3>Send us a note</h3><p>Fill out the order form below and we'll get right back to you.</p></div>
+          <div class="step"><h3>We bake &amp; jar</h3><p>Everything is made fresh for your order.</p></div>
+          <div class="step"><h3>Enjoy!</h3><p>Pick up or arrange delivery, then dig in. 🍓</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORDER -->
+    <section class="order" id="order">
+      <div class="wrap">
+        <div class="section-title">
+          <span class="script">Let's get baking</span>
+          <h2>Place an Order</h2>
+          <p>Tell us what you'd like and we'll be in touch to confirm details.</p>
+        </div>
+        <div class="order-box">
+          <form id="orderForm">
+            <label>Your name
+              <input type="text" name="name" required placeholder="Jane Doe" />
+            </label>
+            <label>Your email
+              <input type="email" name="email" required placeholder="jane@example.com" />
+            </label>
+            <label>What are you interested in?
+              <select name="interest">
+                <option>Jams</option>
+                <option>Biscuits</option>
+                <option>Jams &amp; Biscuits</option>
+                <option>Gift box</option>
+                <option>Something else</option>
+              </select>
+            </label>
+            <label>Tell us more
+              <textarea name="message" placeholder="Flavors, quantities, pickup date..."></textarea>
+            </label>
+            <button class="btn" type="submit">Send My Order 💌</button>
+            <p class="form-note">This opens your email app with your order ready to send.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <a class="brand" href="#top">🍓 Berries &amp; Biscuits</a>
+      <p>Seasonal jams &amp; fresh-baked biscuits</p>
+      <p class="small">&copy; <span id="year"></span> Berries &amp; Biscuits. Made with love and a lot of butter.</p>
+    </div>
+  </footer>
+  <div class="gingham" aria-hidden="true"></div>
+
+  <script>
+    // ====== EDIT THIS: the email address orders are sent to ======
+    const ORDER_EMAIL = "hello@example.com";
+
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Season tabs (defaults to the current season)
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".season-panel");
+
+    function showSeason(season) {
+      tabs.forEach(t => t.setAttribute("aria-selected", String(t.dataset.season === season)));
+      panels.forEach(p => p.classList.toggle("hidden", p.dataset.panel !== season));
+    }
+
+    function currentSeason() {
+      const m = new Date().getMonth(); // 0 = Jan
+      if (m >= 2 && m <= 4) return "spring";
+      if (m >= 5 && m <= 7) return "summer";
+      if (m >= 8 && m <= 10) return "fall";
+      return "winter";
+    }
+
+    tabs.forEach(t => t.addEventListener("click", () => showSeason(t.dataset.season)));
+    showSeason(currentSeason());
+
+    // Order form -> mailto
+    document.getElementById("orderForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const subject = encodeURIComponent("Order from " + f.get("name"));
+      const body = encodeURIComponent(
+        "Name: " + f.get("name") + "\n" +
+        "Email: " + f.get("email") + "\n" +
+        "Interested in: " + f.get("interest") + "\n\n" +
+        f.get("message")
+      );
+      window.location.href = "mailto:" + ORDER_EMAIL + "?subject=" + subject + "&body=" + body;
+    });
+  </script>
+</body>
+</html>
